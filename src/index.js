@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authUser');
+const adminRoutes = require('./routes/admin/auth');
 const app = express();
 
 //express middlewares
@@ -16,6 +17,7 @@ mongoose.connect(process.env.DB, {
 
 //routes middlewares
 app.use('/ecommerce/api', authRoutes);
+app.use('/ecommerce/api', adminRoutes);
 
 
 //listening to server
