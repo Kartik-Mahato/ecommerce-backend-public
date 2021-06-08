@@ -1,9 +1,9 @@
-const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-exports.signup = async (req, res) => {
+const User = require('../models/User');
 
+exports.signup = async (req, res) => {
     const { firstname, lastname, email, password } = req.body;
     try {
         const userExist = await User.findOne({ email });
