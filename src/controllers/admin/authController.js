@@ -60,7 +60,7 @@ exports.signin = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized..." })
         }
 
-        const token = jwt.sign({ _id: admin._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ _id: admin._id, role: admin.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
         return res.status(200).json({
             message: "Login Success",
