@@ -3,7 +3,6 @@ const multer = require('multer');
 const shortid = require('shortid');
 const path = require('path');
 
-const Product = require('../models/Product');
 const { adminMiddleware } = require('../middlewares/adminMiddleware');
 const { requiresSignIn } = require('../middlewares/requiresSignIn');
 const { createProduct } = require('../controllers/productController');
