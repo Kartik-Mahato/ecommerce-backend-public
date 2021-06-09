@@ -2,7 +2,7 @@ const slugify = require('slugify');
 
 const Category = require('../../models/Category');
 
-exports.createCategory = async (req, res) => {
+exports.addCategory = async (req, res) => {
     try {
         const categoryObject = {
             name: req.body.name,
@@ -23,11 +23,36 @@ exports.createCategory = async (req, res) => {
     }
 }
 
+function createCategory(categories, parentId = null) {
+    const categoryList = [];
+    let category;
+
+    if (parentId === null) {
+        category = categories.filter(category => category.parentId == undefined);
+    } else {
+        category = categories.filter(category => category.parentId == parentId);
+    }
+
+    for (let cat of category) {
+        categoryList.push({
+            _id: cat._id,
+            name: cat.name,
+            slug: cat.slug,
+            children: createCategory(categories, cat._id)
+        })
+    }
+
+    return categoryList;
+};
+
 exports.getCategory = async (req, res) => {
     try {
         const categories = await Category.find().select('-updatedAt -__v');
 
-        return res.status(200).json({ categories });
+        const categoryList = createCategory(categories);
+
+        // console.log(categoryList);
+        return res.status(200).json({ categoryList });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
