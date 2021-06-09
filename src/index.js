@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authUser');
 const adminRoutes = require('./routes/admin/auth');
+const categoryRoutes = require('./routes/category');
 const app = express();
 
 //express middlewares
@@ -18,6 +19,7 @@ mongoose.connect(process.env.DB, {
 //routes middlewares
 app.use('/ecommerce/api', authRoutes);
 app.use('/ecommerce/api', adminRoutes);
+app.use('/ecommerce/api', categoryRoutes);
 
 
 //listening to server
