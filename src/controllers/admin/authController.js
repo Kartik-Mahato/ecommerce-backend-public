@@ -69,6 +69,8 @@ exports.signin = async (req, res) => {
             _id: admin._id,
         }
 
+        res.cookie('token', token, { maxAge: 3600000 })
+
         return res.status(200).json({
             message: "Login Success",
             token,
@@ -77,4 +79,9 @@ exports.signin = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
+}
+
+exports.signout = async (req, res) => {
+    res.clearCookie('token');
+    res.status(200).json({ message: "Sign out successfully" })
 }
