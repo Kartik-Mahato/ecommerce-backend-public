@@ -8,7 +8,7 @@ const { validateSignUpRequest, isRequestValidated, validateSignInRequest } = req
 //authRoutes
 router.post('/admin/signup', validateSignUpRequest, isRequestValidated, signup);
 router.post('/admin/signin', validateSignInRequest, isRequestValidated, signin);
-router.post('/admin/signout', requiresSignIn, signout);
+router.post('/admin/signout', signout);
 
 //profile
 // router.get('/profile/:id', requiresSignIn, profile);

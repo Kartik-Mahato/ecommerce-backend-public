@@ -6,7 +6,7 @@ exports.requiresSignIn = (req, res, next) => {
         const verifiedUser = jwt.verify(token, process.env.JWT_SECRET);
         req.user = verifiedUser;
     } catch (error) {
-        return res.status(401).json({ message: "Unauthorized user" });
+        return res.status(401).json({ message: error.message });
     }
     // console.log(token);
 

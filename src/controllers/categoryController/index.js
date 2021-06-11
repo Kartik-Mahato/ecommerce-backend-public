@@ -9,8 +9,8 @@ exports.addCategory = async (req, res) => {
             slug: slugify(req.body.name)
         }
 
-        if(req.file) {
-            categoryObject.categoryImage = `${process.env.API}/public/` + req.file.filename;
+        if (req.file) {
+            categoryObject.categoryImage = `${process.env.API}public/` + req.file.filename;
         }
 
 
