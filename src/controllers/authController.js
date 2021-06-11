@@ -21,7 +21,7 @@ exports.signup = async (req, res) => {
             lastname,
             password: hashedPassword,
             email,
-            username: Math.random().toString()
+            username: email.split("@")[0]
         });
 
         await _user.save();
