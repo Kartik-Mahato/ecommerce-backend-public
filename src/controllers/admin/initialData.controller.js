@@ -4,7 +4,7 @@ const Product = require('../../models/Product');
 exports.initialData = async (req, res) => {
     try {
         const categories = await Category.find().select("-updatedAt -__v");
-        const products = await Product.find().select("-createdAt -updatedAt -__v");
+        const products = await Product.find().select("-createdAt -updatedAt -__v").populate({ path: 'category', select: '_id name' });
         res.status(200).json({
             categories: createCategory(categories),
             products

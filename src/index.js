@@ -24,7 +24,7 @@ mongoose.connect(process.env.DB, {
 }).then(() => console.log("Database Connected")).catch(err => console.log(err));
 
 //routes middlewares
-app.use('public', express.static(path.join(__dirname, 'uploads')));
+app.use('/public', express.static(path.join(__dirname, 'uploads')));
 app.use('/ecommerce/api', authRoutes);
 app.use('/ecommerce/api', adminRoutes);
 app.use('/ecommerce/api', categoryRoutes);

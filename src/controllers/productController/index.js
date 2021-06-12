@@ -7,7 +7,7 @@ exports.createProduct = async (req, res) => {
         const { name, price, description, category, quantity } = req.body;
 
         let productPictures = [];
-        console.log(req.body);
+        // console.log(req.body);
         
         if (req.files.length > 0) {
             productPictures = req.files.map(file => {
