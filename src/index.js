@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authUser');
 const adminRoutes = require('./routes/admin/auth');
+const initialData = require('./routes/admin/initialData');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/products');
 const cartRoutes = require('./routes/cart');
@@ -29,6 +30,7 @@ app.use('/ecommerce/api', adminRoutes);
 app.use('/ecommerce/api', categoryRoutes);
 app.use('/ecommerce/api', productRoutes);
 app.use('/ecommerce/api', cartRoutes);
+app.use('/ecommerce/api', initialData);
 //listening to server
 app.listen(process.env.PORT, () => {
     console.log(`Server running on ${process.env.PORT}`);
