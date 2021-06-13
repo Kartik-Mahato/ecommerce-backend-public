@@ -29,6 +29,56 @@ exports.addCategory = async (req, res) => {
     }
 }
 
+exports.getCategory = async (req, res) => {
+    try {
+        const categories = await Category.find().select('-updatedAt -__v');
+
+        const categoryList = createCategory(categories);
+
+        // console.log(categoryList);
+        return res.status(200).json({ categoryList });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+exports.updateCategory = async (req, res) => {
+    try {
+        const { _id, name, parentId, type } = req.body;
+        
+        const updatedCategories = []
+        if (name instanceof Array) {
+            for (let i = 0; i < name.length; i++) {
+                const category = {
+                    name: name[i],
+                    type: type[i]
+                };
+                if (parentId[i] !== "") {
+                    category.parentId = parentId[i];
+                }
+
+                const updatedCategory = await Category.findOneAndUpdate({ _id: _id[i] }, category, { new: true });
+                updatedCategories.push(updatedCategory);
+            }
+            return res.status(201).json({ updatedCategories });
+        } else {
+            const category = {
+                name,
+                type
+            };
+            if (parentId !== "") {
+                category.parentId = parentId;
+            }
+            const updatedCategory = await Category.findOneAndUpdate({ _id }, category, { new: true });
+
+            return res.status(201).json({ updatedCategory })
+        }
+        // res.status(200).json({ body: req.body })
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 function createCategory(categories, parentId = null) {
     const categoryList = [];
     let category;
@@ -51,16 +101,3 @@ function createCategory(categories, parentId = null) {
 
     return categoryList;
 };
-
-exports.getCategory = async (req, res) => {
-    try {
-        const categories = await Category.find().select('-updatedAt -__v');
-
-        const categoryList = createCategory(categories);
-
-        // console.log(categoryList);
-        return res.status(200).json({ categoryList });
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
-}
