@@ -51,7 +51,8 @@ exports.updateCategory = async (req, res) => {
             for (let i = 0; i < name.length; i++) {
                 const category = {
                     name: name[i],
-                    type: type[i]
+                    type: type[i],
+                    slug: slugify(name[i])
                 };
                 if (parentId[i] !== "") {
                     category.parentId = parentId[i];
@@ -64,7 +65,8 @@ exports.updateCategory = async (req, res) => {
         } else {
             const category = {
                 name,
-                type
+                type,
+                slug: slugify(name)
             };
             if (parentId !== "") {
                 category.parentId = parentId;
