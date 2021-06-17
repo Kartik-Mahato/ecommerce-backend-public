@@ -60,3 +60,17 @@ exports.getProductsBySlug = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 }
+
+exports.getProductDetailsById = async (req, res) => {
+    const { productId } = req.params;
+    if (productId) {
+        const productDetails = await Product.findOne({ _id: productId });
+        if (productDetails) {
+            return res.status(200).json({ productDetails });
+        } else {
+            return res.status(404).json({ message: 'No Product Details' });
+        }
+    } else {
+        return res.status(400).json({ error: 'Not a valid request' });
+    }
+}

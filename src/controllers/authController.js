@@ -56,10 +56,10 @@ exports.signin = async (req, res) => {
         }
 
         if (user.role !== 'user') {
-            res.status(403).json({ message: "Forbidden" })
+            return res.status(403).json({ message: "Forbidden" })
         }
 
-        const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "24h" });
 
         return res.status(200).json({
             message: "Login Success",
