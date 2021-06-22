@@ -1,11 +1,15 @@
 const Order = require('../../models/Order');
+const Cart = require('../../models/Cart');
 
 exports.addOrder = async (req, res) => {
     try {
-        req.body.user = req.user._id;
-        const order = new Order(req.body);
-        const newOrder = await order.save();
-        return res.status(201).json({ newOrder });
+        const deleteCart = await Cart.deleteOne({ user: req.user._id });
+        if (deleteCart) {
+            req.body.user = req.user._id;
+            const order = new Order(req.body);
+            const newOrder = await order.save();
+            return res.status(201).json({ newOrder });
+        }
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

@@ -39,7 +39,7 @@ exports.createProduct = async (req, res) => {
 exports.getProductsBySlug = async (req, res) => {
     const { slug } = req.params;
     try {
-        const category = await Category.findOne({ slug }).select("_id");
+        const category = await Category.findOne({ slug }).select("_id type");
         if (!category) {
             return res.status(400).json({ message: 'No data found' });
         }
@@ -48,14 +48,20 @@ exports.getProductsBySlug = async (req, res) => {
         if (!products) {
             return res.status(404).json({ message: "No products found" });
         }
-        return res.status(200).json({
-            products,
-            productsByPrice: {
-                under5k: products.filter(product => product.price <= 5000),
-                under10k: products.filter(product => product.price > 5000 && product.price <= 10000),
-                under15k: products.filter(product => product.price > 10000 && product.price <= 15000)
+        if (category.type) {
+            if (products.length > 0) {
+                return res.status(200).json({
+                    products,
+                    productsByPrice: {
+                        under5k: products.filter(product => product.price <= 5000),
+                        under10k: products.filter(product => product.price > 5000 && product.price <= 10000),
+                        under15k: products.filter(product => product.price > 10000 && product.price <= 15000)
+                    }
+                });
             }
-        });
+        } else {
+            return res.status(200).json({ products });
+        }
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
