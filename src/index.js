@@ -10,6 +10,7 @@ const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/products');
 const cartRoutes = require('./routes/cart');
 const addressRoutes = require('./routes/address');
+const orderRoutes = require('./routes/order');
 const cors = require('cors');
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/ecommerce/api', cartRoutes);
 app.use('/ecommerce/api', initialData);
 app.use('/ecommerce/api', pageRoutes);
 app.use('/ecommerce/api', addressRoutes);
+app.use('/ecommerce/api', orderRoutes);
 //listening to server
 app.listen(process.env.PORT, () => {
     console.log(`Server running on ${process.env.PORT}`);
