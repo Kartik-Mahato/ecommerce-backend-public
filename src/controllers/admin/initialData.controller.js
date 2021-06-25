@@ -1,13 +1,16 @@
 const Category = require('../../models/Category');
 const Product = require('../../models/Product');
+const Order = require('../../models/Order');
 
 exports.initialData = async (req, res) => {
     try {
         const categories = await Category.find().select("-updatedAt -__v");
         const products = await Product.find().select("-createdAt -updatedAt -__v").populate({ path: 'category', select: '_id name' });
+        const orders = await Order.find().populate("items.productId", 'name');
         res.status(200).json({
             categories: createCategory(categories),
-            products
+            products,
+            orders
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });

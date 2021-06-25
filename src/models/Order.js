@@ -36,6 +36,27 @@ const orderSchema = new mongoose.Schema({
         enum: ['pending', 'completed', 'cancelled', 'refund'],
         required: true
     },
+    paymentType: {
+        type: String,
+        enum: ["COD", "CARD"],
+        required: true
+    },
+    orderStatus: [
+        {
+            status: {
+                type: String,
+                enum: ['ordered', 'packed', 'shipped', 'delivered'],
+                default: 'ordered'
+            },
+            date: {
+                type: Date
+            },
+            isCompleted: {
+                type: Boolean,
+                default: false
+            }
+        }
+    ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

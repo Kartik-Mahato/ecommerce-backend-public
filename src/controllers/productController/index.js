@@ -29,7 +29,7 @@ exports.createProduct = async (req, res) => {
 
         await product.save();
 
-        return res.status(200).json({ product })
+        return res.status(201).json({ product })
 
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -52,6 +52,14 @@ exports.getProductsBySlug = async (req, res) => {
             if (products.length > 0) {
                 return res.status(200).json({
                     products,
+                    priceRange: {
+                        under5k: 5000,
+                        under10k: 10000,
+                        under15k: 15000,
+                        under20k: 20000,
+                        under25k: 25000,
+                        under30k: 30000
+                    },
                     productsByPrice: {
                         under5k: products.filter(product => product.price <= 5000),
                         under10k: products.filter(product => product.price > 5000 && product.price <= 10000),
@@ -78,5 +86,26 @@ exports.getProductDetailsById = async (req, res) => {
         }
     } else {
         return res.status(400).json({ error: 'Not a valid request' });
+    }
+}
+
+exports.deleteProductById = async (req, res) => {
+    const productId = req.body.payload;
+
+    try {
+        const result = await Product.deleteOne({ _id: productId });
+        return res.status(202).json({ result });
+    } catch (error) {
+        return res.status(500).json({ error });
+    }
+}
+
+exports.getProducts = async (req, res) => {
+    try {
+        const products = await Product.find().select("_id name price quantity slug description productPictures category").populate({ path: "category", select: "_id name" });
+
+        return res.status(200).json({ products });
+    } catch (error) {
+        return res.status(500).json({ error });
     }
 }

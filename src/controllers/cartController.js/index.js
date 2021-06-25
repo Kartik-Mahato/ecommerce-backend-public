@@ -79,3 +79,26 @@ exports.getCartItems = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 }
+
+exports.removeCartItems = async (req, res) => {
+    const productId = req.body.payload;
+    try {
+        if (productId) {
+            const result = await Cart.updateOne(
+                { user: req.user._id },
+                {
+                    $pull: {
+                        cartItems: {
+                            product: productId,
+                        },
+                    },
+                }
+            );
+            if (result) {
+                return res.status(202).json({ result });
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
