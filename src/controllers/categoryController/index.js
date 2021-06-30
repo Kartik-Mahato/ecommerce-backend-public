@@ -11,7 +11,7 @@ exports.addCategory = async (req, res) => {
         }
 
         if (req.file) {
-            categoryObject.categoryImage = `${process.env.API}public/` + req.file.filename;
+            categoryObject.categoryImage = `/public/` + req.file.filename;
         }
 
 
