@@ -29,7 +29,6 @@ mongoose.connect(process.env.DB, {
 
 //routes middlewares
 app.use('/public', express.static(path.join(__dirname, 'uploads')));
-app.use('/', (req, res) => res.send("This is the backend for ecommerce web application"));
 app.use('/ecommerce/api', authRoutes);
 app.use('/ecommerce/api', adminRoutes);
 app.use('/ecommerce/api', categoryRoutes);
