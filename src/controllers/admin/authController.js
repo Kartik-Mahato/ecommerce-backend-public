@@ -8,7 +8,7 @@ exports.signup = async (req, res) => {
     try {
         const adminExist = await User.findOne({ email });
         if (adminExist) {
-            return res.status(400).json({ message: "Admin already registered!!" });
+            return res.status(400).json({ message: "This Email is already registered." });
         }
         if (password.length < 5) {
             return res.json({ message: "Password must be atleast 5 characters long." })
